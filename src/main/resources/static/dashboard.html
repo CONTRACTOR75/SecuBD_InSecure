@@ -437,10 +437,9 @@
     </div>
 
     <script>
-        // VERSION NON SÉCURISÉE - À UTILISER UNIQUEMENT EN DÉVELOPPEMENT
-
-        let currentPort = window.location.port ? parseInt(window.location.port) : (window.location.protocol === 'https:' ? 443 : 80);
-        const API_BASE = 'http://localhost:' + currentPort;
+        // let currentPort = window.location.port ? parseInt(window.location.port) : (window.location.protocol === 'https:' ? 443 : 80);
+        const API_BASE = 'https://secubd-insecure-aiven.onrender.com/api/users';
+        const switchTargetUrl = `https://secubd-secure-aiven.onrender.com/`;
 
         function showToast(message, type) {
             const toast = document.getElementById('toast');
@@ -453,7 +452,7 @@
         }
 
         function logout() {
-            window.location.href = 'index.html';
+            window.location.href = 'https://secubd-insecure-aiven.onrender.com';
         }
 
         function getUrlParameter(name) {
@@ -476,7 +475,7 @@
             document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
 
             try {
-                const response = await fetch(`${API_BASE}/user?username=${username}`);
+                const response = await fetch(`${API_BASE}/me?username=${username}`);
                 const userData = await response.json();
 
                 if (userData.error) {
@@ -504,6 +503,7 @@
                 document.getElementById('user-statut').textContent = 'Erreur lors du chargement de la donnée';
                 document.getElementById('user-attemps').textContent = 'Erreur lors du chargement de la donnée';
                 document.getElementById('user-locked_until').textContent = 'Erreur lors du chargement de la donnée';
+                setTimeout(() => logout(), 3000);
             }
         }
 

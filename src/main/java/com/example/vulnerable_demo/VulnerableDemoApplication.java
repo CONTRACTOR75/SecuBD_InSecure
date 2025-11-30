@@ -20,12 +20,6 @@ public class VulnerableDemoApplication {
         System.out.println(" ");
         System.out.println("       SERVEUR EN VERSION VULNÉRABLE LANCE avec succes sur le port : http://localhost:8080 ");
         System.out.println(" ");
-        System.out.println("       Login ");
-        System.out.println("        → http://localhost:8080/login ");
-        System.out.println(" ");
-        System.out.println("       Register (GET vulnérable) ");
-        System.out.println("        → http://localhost:8080/register ");
-        System.out.println(" ");
         System.out.println("═══════════════════════════════════════════════════════════════════════════════════════════════════════╝");
         System.out.println(" ");
     }

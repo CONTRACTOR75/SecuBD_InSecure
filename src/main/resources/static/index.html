@@ -356,11 +356,12 @@
     </div>
 
     <script>
-        // VERSION INSÉCURISÉE - Mode B (Port 8080)
-        const PORT = 8080;
-        const SECURE_PORT = 8081;
-        const API_BASE = `http://localhost:${PORT}`;
-        const switchTargetUrl = `http://localhost:${SECURE_PORT}/index.html`;
+        //const PORT = 8080;
+        //const SECURE_PORT = 8081;
+        //const API_BASE = `http://localhost:${PORT}`;
+        
+        const switchTargetUrl = `https://secubd-secure-aiven.onrender.com/`;
+        const API_BASE = `https://secubd-insecure-aiven.onrender.com/api/auth`;
 
         function initMode() {
             document.getElementById('switch-btn').textContent = 'Passer en Mode B (Sécurisé)';
@@ -384,19 +385,17 @@
 
         async function switchVersion() {
             try {
-                const testUrl = `http://localhost:${SECURE_PORT}/index.html`;
-                const response = await fetch(testUrl, {
+                const response = await fetch(switchTargetUrl, {
                     method: 'GET',
                     mode: 'no-cors',
                     signal: AbortSignal.timeout(2000)
                 });
-                window.location.href = testUrl;
+                window.location.href = targetUrl;
             } catch (error) {
                 showToast('Le service en Mode B (Sécurisé) semble indisponible. Veuillez réessayer', 'error');
             }
         }
 
-        // LOGIN INSÉCURISÉ : Paramètres dans l'URL (GET)
         async function handleLogin(e) {
             e.preventDefault();
             const form = e.target;
@@ -404,7 +403,7 @@
             const password = form.password.value;
 
             try {
-                // ⚠️ INSÉCURISÉ : Credentials en GET params (visible dans l'URL)
+                // credentials en GET params (visible dans l'URL)
                 const response = await fetch(
                     `${API_BASE}/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
                 );
@@ -414,7 +413,7 @@
 
                     showToast('Connexion réussie', 'success');
                     setTimeout(() => {
-                        window.location.href = `dashboard.html?user=${username}`;
+                        window.location.href = `${API_BASE}/dashboard.html?user=${username}`;
                     }, 1500);
                 } else {
                     showToast('Identifiants incorrects', 'error');

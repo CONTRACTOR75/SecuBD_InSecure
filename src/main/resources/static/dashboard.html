@@ -437,8 +437,6 @@
     </div>
 
     <script>
-        // VERSION NON SÉCURISÉE - À UTILISER UNIQUEMENT EN DÉVELOPPEMENT
-
         let currentPort = window.location.port ? parseInt(window.location.port) : (window.location.protocol === 'https:' ? 443 : 80);
         const API_BASE = 'http://localhost:' + currentPort;
 
@@ -488,7 +486,7 @@
                     document.getElementById('user-username').textContent = userData.username;
                     document.getElementById('user-email').textContent = userData.email;
                     document.getElementById('user-statut').textContent = userData.locked_until == null ? 'Compte Actif' : 'Compte Bloqué';
-                    document.getElementById('user-attemps').textContent = userData.failed_attempts == 0 ? 'Aucune tentative de connexion échouée répertoriée' : userData.failed_attempts;
+                    document.getElementById('user-attemps').textContent = userData.failed_attempts == 0 ? 'Aucune tentative répertoriée' : userData.failed_attempts+' fois';
                     document.getElementById('user-locked_until').textContent = userData.locked_until || 'Compte non bloqué';
                 } else {
                     document.getElementById('user-username').textContent = 'Données introuvables';

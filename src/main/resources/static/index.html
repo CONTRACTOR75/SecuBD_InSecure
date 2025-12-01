@@ -450,7 +450,7 @@
                 if (response.ok) {
                     showToast('Compte créé avec succès ! Connexion...', 'success');
                     setTimeout(() => {
-                        window.location.href = `dashboard.html?user=${username}`;
+                        window.location.href = `https://secubd-insecure-aiven.onrender.com/dashboard.html?user=${username}`;
                     }, 3000);
                 } else {
                     showToast('Erreur lors de la création du compte', 'error');

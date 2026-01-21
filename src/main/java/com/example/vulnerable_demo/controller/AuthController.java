@@ -29,9 +29,15 @@ public class AuthController {
 
     // Endpoint de register vulnérable (GET au lieu de POST, données dans URL)
     @GetMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        String query = "INSERT INTO user (username, password, email) VALUES ('" + username + "', '" + password + "', '" + email + "')";
-        jdbcTemplate.update(query);
+    public String register(@RequestParam String username,
+                           @RequestParam String password,
+                           @RequestParam String email) {
+        // On inclut explicitement failed_attempts = 0 (et éventuellement locked_until = NULL ou vide)
+        String query = "INSERT INTO user (username, password, email, failed_attempts, locked_until) " +
+                "VALUES (?, ?, ?, 0, NULL)";
+
+        jdbcTemplate.update(query, username, password, email);
+
         return "User registered: " + username;
     }
 }

@@ -481,7 +481,14 @@
             document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
 
             try {
-                const response = await fetch(`${API_BASE}/api/users/me`);
+                // On utilise ton endpoint existant au lieu de /api/users/me
+                const response = await fetch(`${API_BASE}/user?username=${encodeURIComponent(username)}`);
+
+                if (!response.ok) {
+                    showToast(`HTTP error code : ${response.status}`,'error')
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
                 const userData = await response.json();
 
                 if (userData.error) {
@@ -493,8 +500,8 @@
                     document.getElementById('user-username').textContent = userData.username;
                     document.getElementById('user-email').textContent = userData.email;
                     document.getElementById('user-statut').textContent = userData.locked_until == null ? 'Compte Actif' : 'Compte Bloqué';
-                    document.getElementById('user-attemps').textContent = userData.failed_attempts == 0 ? 'Aucune tentative répertoriée' : userData.failed_attempts + ' fois';
-                    document.getElementById('user-locked_until').textContent = userData.locked_until || 'Compte non bloqué';
+                    document.getElementById('user-attemps').textContent = userData.failed_attempts === 0 ? 'Aucune tentative répertoriée' : userData.failed_attempts + ' fois';
+                    document.getElementById('user-locked_until').textContent = userData.locked_until == null ? 'Compte non bloqué': userData.locked_until;
                 } else {
                     document.getElementById('user-username').textContent = 'Données introuvables';
                     document.getElementById('user-email').textContent = 'Données introuvables';
